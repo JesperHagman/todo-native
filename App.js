@@ -3,26 +3,30 @@ import { StyleSheet, Text, View } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import { useEffect } from 'react';
 
-const todos = [
-  "Städa",
-  "Diska",
-  "Plugga",
-  "Träna"
-]
-
-const handleTodos = () =>{
-
-  for (var i of todos) {
-      
-    }
-    /* 
-  <DataTable.Row>
-    <DataTable.Cell>{i}</DataTable.Cell>
-    <DataTable.Cell> </DataTable.Cell>
-    <DataTable.Cell> </DataTable.Cell>
-  </DataTable.Row> */
+const todos = {  
+  name:[ 
+    "Städa",
+    "Diska",
+    "Plugga",
+    "Träna"
+  ]
 }
 
+/* const list = todos.map(item => {
+  return (
+    <View style={{ flexDirection: 'row'}}>
+      <View style={{ flex: 1}}>
+        {item.name.map((name, i) => (
+          <Text>{i + 1}</Text>
+        ))}
+      </View>
+    </View>
+  );
+});
+ */
+const handleTodos = () =>{
+
+  }
 
 export default function App() {
   useEffect(
@@ -35,19 +39,31 @@ export default function App() {
       <DataTable>
         <DataTable.Header>
           <DataTable.Title>To do</DataTable.Title>
+        </DataTable.Header>
+
+        <DataTable.Row>
+          <DataTable.Cell id="incomplete-tasks"> {todos.name} </DataTable.Cell>
+        </DataTable.Row>
+      </DataTable>
+
+      <DataTable>
+        <DataTable.Header>
           <DataTable.Title>Doing</DataTable.Title>
+        </DataTable.Header>
+
+        <DataTable.Row>
+          <DataTable.Cell id="current-tasks">hej</DataTable.Cell>
+        </DataTable.Row>
+      </DataTable>
+
+      <DataTable>
+        <DataTable.Header>
           <DataTable.Title>Done</DataTable.Title>
         </DataTable.Header>
 
         <DataTable.Row>
-          <DataTable.Cell>{todos}</DataTable.Cell>
-          <DataTable.Cell>Diska</DataTable.Cell>
-          <DataTable.Cell>Plugga som fan</DataTable.Cell>
+          <DataTable.Cell id="completed-tasks"></DataTable.Cell>
         </DataTable.Row>
-        <DataTable.Row>
-          <DataTable.Cell>{todos}</DataTable.Cell>
-        </DataTable.Row>
-
       </DataTable>
       
     </View>
