@@ -1,80 +1,146 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { DataTable } from 'react-native-paper';
-import { useEffect } from 'react';
+import { StyleSheet, Text, View, KeyboardAvoidingView, Platform, TouchableOpacity, TextInput, Keyboard } from 'react-native';
+import { useState } from 'react';
+import Task from './components/Task';
 
-const todos = {  
-  name:[ 
-    "Städa",
-    "Diska",
-    "Plugga",
-    "Träna"
-  ]
-}
 
-/* const list = todos.map(item => {
-  return (
-    <View style={{ flexDirection: 'row'}}>
-      <View style={{ flex: 1}}>
-        {item.name.map((name, i) => (
-          <Text>{i + 1}</Text>
-        ))}
-      </View>
-    </View>
-  );
-});
- */
-const handleTodos = () =>{
-
-  }
 
 export default function App() {
-  useEffect(
-    handleTodos
-  )
+  const [task, setTask] = useState()
+  const [taskItem, setTaskItem] = useState([])
+
+  const handleAddTask = () => {
+    Keyboard.dismiss()
+    setTaskItem([...taskItem, task])
+    setTask(null)
+  }
+
+  const completeTask = (index) => {
+    let itemsCopy = [...taskItem]
+    itemsCopy.splice(index, 1)
+    setTaskItem(itemsCopy)
+  }
+
+
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
 
-      <DataTable>
-        <DataTable.Header>
-          <DataTable.Title>To do</DataTable.Title>
-        </DataTable.Header>
+      <View style={styles.taskWrapper}>
+        <Text style={styles.sectionTitle}>Tasks</Text>
 
-        <DataTable.Row>
-          <DataTable.Cell id="incomplete-tasks"> {todos.name} </DataTable.Cell>
-        </DataTable.Row>
-      </DataTable>
+        <View style={styles.items}> 
+          {
+            taskItem.map((item, index) => {
+              return (
+                <TouchableOpacity key={index} onPress={() => completeTask(index)}>
+                  <Task key={index} text={item} />
+                </TouchableOpacity>
+              )
+            })
+          }
+        </View>
+      </View>
 
-      <DataTable>
-        <DataTable.Header>
-          <DataTable.Title>Doing</DataTable.Title>
-        </DataTable.Header>
+      <View style={styles.taskWrapper}>
+        <Text style={styles.sectionTitle}>Today's Tasks</Text>
 
-        <DataTable.Row>
-          <DataTable.Cell id="current-tasks">hej</DataTable.Cell>
-        </DataTable.Row>
-      </DataTable>
+        <View style={styles.items}> 
+          {
+            taskItem.map((item, index) => {
+              return (
+                <TouchableOpacity key={index} onPress={() => completeTask(index)}>
+                  <Task key={index} text={item} />
+                </TouchableOpacity>
+              )
+            })
+          }
+        </View>
+      </View>
 
-      <DataTable>
-        <DataTable.Header>
-          <DataTable.Title>Done</DataTable.Title>
-        </DataTable.Header>
+      <View style={styles.taskWrapper}>
+        <Text style={styles.sectionTitle}>Completed Tasks</Text>
 
-        <DataTable.Row>
-          <DataTable.Cell id="completed-tasks"></DataTable.Cell>
-        </DataTable.Row>
-      </DataTable>
+        <View style={styles.items}> 
+          {
+            taskItem.map((item, index) => {
+              return (
+                <TouchableOpacity key={index} onPress={() => completeTask(index)}>
+                  <Task key={index} text={item} />
+                </TouchableOpacity>
+              )
+            })
+          }
+        </View>
+      </View>
+      
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.writeTaskWrapper}>
+
+        <TextInput style={styles.input} placeholder={"write a task"} value={task} onChangeText={text => setTask(text)} />
+
+        <TouchableOpacity onPress={() => handleAddTask()}>
+          <View style={styles.addWrapper} >
+            <Text style={styles.addText}>+</Text>
+          </View>
+        </TouchableOpacity>
+
+      </KeyboardAvoidingView>
       
     </View>
+
+
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#E8EAED',
+    flexDirection: "row",
   },
+  taskWrapper: {
+    paddingTop: 60,
+    paddingHorizontal: 5,
+    maxWidth: "75%"
+  },
+  sectionTitle: {
+    fontWeight: "bold"
+  },
+  items: {
+    marginTop: 30,
+    width: "95%"
+  },
+  writeTaskWrapper: {
+    position: "absolute",
+    bottom: 60,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center"
+  },
+  input: {
+    paddingVertical: 15,
+    paddingHorizontal: 85,
+    backgroundColor: "#FFF",
+    borderRadius: 60,
+    borderColor: "#C0C0C0",
+    borderWidth: 1,
+    width: 250,
+
+  },
+  addWrapper: {
+    width: 60,
+    height: 60,
+    backgroundColor: "#FFF",
+    borderRadius: 60,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "#C0C0C0",
+    borderWidth: 1,
+
+  },
+  addText: {},
+  test: {
+    flexDirection: "row",
+  },
+
 });
