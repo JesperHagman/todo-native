@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, KeyboardAvoidingView, Platform, TouchableOpacity, TextInput, Keyboard } from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView, Platform, TouchableOpacity, TextInput, Keyboard, useWindowDimensions } from 'react-native';
 import { useState } from 'react';
 import Task from './components/Task';
 
 
 
 export default function App() {
+  const window = useWindowDimensions();
   const [task, setTask] = useState()
   const [taskItem, setTaskItem] = useState([])
 
@@ -24,6 +25,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+    <StatusBar style='auto' />
 
       <View style={styles.taskWrapper}>
         <Text style={styles.sectionTitle}>Tasks</Text>
@@ -100,10 +102,9 @@ const styles = StyleSheet.create({
   taskWrapper: {
     paddingTop: 60,
     paddingHorizontal: 5,
-    maxWidth: "75%"
   },
   sectionTitle: {
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   items: {
     marginTop: 30,
